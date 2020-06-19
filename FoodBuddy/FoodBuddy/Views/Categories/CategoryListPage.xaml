@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="FoodBuddy.Views.Categories.CategoryListPage"
+             Title="{Binding Title}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="A->Z"
+                     Command="{Binding SortCommand}"
+                     CommandParameter="AZ"
+                     Order="Secondary"
+                     Priority="1" />
+        <ToolbarItem Text="Z->A"
+                     Command="{Binding SortCommand}"
+                     CommandParameter="ZA"
+                     Order="Secondary"
+                     Priority="2" />
+        <ToolbarItem Text="Search"
+                     x:Name="SearchButton"
+                     Clicked="SearchButton_Clicked"/>
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <StackLayout>
+            <SearchBar IsVisible="False"
+                       x:Name="SearchBar"
+                       TextChanged="SearchBar_TextChanged"
+                       Placeholder="Search.."/>
+            <Button Text="Add category"
+                    x:Name="AddCategoryButton"
+                    Clicked="AddCategoryButton_Clicked" />
+            <ListView x:Name="CategoriesListView"
+                      ItemsSource="{Binding Categories}"
+                      ItemTapped="Handle_ItemTapped"
+                      RefreshCommand="{Binding LoadItemsCommand}"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                      CachingStrategy="RecycleElement">
+
+                <!--Custom View Cells-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         VerticalOptions="Center"
+                                         HorizontalOptions="CenterAndExpand">
+                                <Label Text="{Binding CategoryName}"
+                                       Style="{DynamicResource ListItemTextStyle}" 
+                                       FontSize="Title"
+                                       TextColor="Black"/>
+                            </StackLayout>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Edit"
+                                          x:Name="EditButton"
+                                          Clicked="EditButton_Clicked" />
+                                <MenuItem Text="Delete"
+                                          x:Name="DeleteButton"
+                                          Clicked="DeleteButton_Clicked" />
+                            </ViewCell.ContextActions>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

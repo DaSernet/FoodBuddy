@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:FoodBuddy.ViewModels.Categories"
+             mc:Ignorable="d"
+             x:Class="FoodBuddy.Views.Categories.NewCategoryPage">
+
+    <ContentPage.ToolbarItems BarBackgroundColor="Red">
+        <ToolbarItem Text="Cancel"
+                     Clicked="CancelButton_Clicked" />
+        <ToolbarItem Text="Save"
+                     Clicked="SaveButton_Clicked" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="20"
+                         Padding="15">
+                <Label Text="Name:"
+                       FontSize="Medium" />
+                <Entry Text="{Binding Category.CategoryName}"
+                       Placeholder="Category name"
+                       FontSize="Small" />
+
+                <Label Text="Search terms:"
+                       FontSize="Medium" />
+                <Entry x:Name="TagEntry"
+                       Placeholder="Search term"
+                       FontSize="Small" />
+                <Button Text="Add search term"
+                        x:Name="addTagButton"
+                        Clicked="addTagButton_Clicked"/>
+                <ListView x:Name="CategoryTagsListView"
+                      ItemsSource="{Binding Tags}">
+
+                    <!--Custom View Cells-->
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                                    <Label Text="{Binding .}"
+                                           TextColor="Black"
+                                           FontSize="Medium"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="CenterAndExpand"
+                                           Margin="95, 0, 0, 0"
+                                           />
+                                    <Button Text="Delete"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewCategoryViewModel}}, Path=DeleteTagCommand}"
+                                            CommandParameter="{Binding .}"
+                                            />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

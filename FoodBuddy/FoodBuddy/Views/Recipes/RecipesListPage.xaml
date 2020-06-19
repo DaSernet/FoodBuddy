@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="FoodBuddy.Views.Recipes.RecipesListPage"
+             Title="{Binding Title}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Search"
+                     x:Name="SearchToolbarButton"
+                     Clicked="SearchToolbarButton_Clicked" />
+        <ToolbarItem Text="A->Z"
+                     Command="{Binding SortCommand}"
+                     CommandParameter="AZ"
+                     Order="Secondary"
+                     Priority="1" />
+        <ToolbarItem Text="Z->A"
+                     Command="{Binding SortCommand}"
+                     CommandParameter="ZA"
+                     Order="Secondary"
+                     Priority="2" />
+        <ToolbarItem Text="Shortest"
+                     Command="{Binding SortCommand}"
+                     CommandParameter="Shortest"
+                     Order="Secondary"
+                     Priority="3" />
+        <ToolbarItem Text="Longest"
+                     Command="{Binding SortCommand}"
+                     CommandParameter="Longest"
+                     Order="Secondary"
+                     Priority="4" />
+        <ToolbarItem Text="Ratings"
+                     Command="{Binding SortCommand}"
+                     CommandParameter="Rating"
+                     Order="Secondary"
+                     Priority="5" />
+        <ToolbarItem Text="Favorites"
+                     Command="{Binding SortCommand}"
+                     CommandParameter="Favorited"
+                     Order="Secondary"
+                     Priority="6" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <StackLayout>
+            <SearchBar IsVisible="False"
+                       x:Name="SearchBar"
+                       TextChanged="SearchBar_TextChanged"
+                       Placeholder="Search.." />
+            <Button Text="Add recipe"
+                    x:Name="AddRecipeButton"
+                    Clicked="AddRecipeButton_Clicked" />
+            <ListView x:Name="RecipesListView"
+                      HasUnevenRows="True"
+                      ItemsSource="{Binding Recipes}"
+                      ItemTapped="Handle_ItemTapped"
+                      RefreshCommand="{Binding LoadItemsCommand}"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                      CachingStrategy="RecycleElement">
+
+                <!--Custom View Cells-->
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.20*" />
+                                    <ColumnDefinition Width="0.20*" />
+                                    <ColumnDefinition Width="0.20*" />
+                                    <ColumnDefinition Width="0.20*" />
+                                    <ColumnDefinition Width="0.20*" />
+                                    <ColumnDefinition Width="0.20*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="Favorite.png"
+                                       Grid.Column="0"
+                                       HorizontalOptions="End"
+                                       VerticalOptions="Center"
+                                       Margin="0,0,10,0"
+                                       Opacity="{Binding RecipeFavorited}" />
+                                <Label Text="{Binding RecipeDuration,StringFormat='{0} Minutes'}"
+                                       Grid.Column="1"
+                                       Grid.ColumnSpan="1"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center"
+                                       FontSize="Small"/>
+                                <Label Text="{Binding RecipeName}"
+                                       Grid.Column="2"
+                                       Grid.ColumnSpan="2"
+                                       Style="{DynamicResource ListItemTextStyle}"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center"
+                                       TextColor="Black"
+                                       FontSize="Large"
+                                       Margin="10,0,0,0" />
+                                <Label Text="{Binding RecipeRating,StringFormat='{0}/10'}"
+                                       Grid.Column="5"
+                                       Grid.ColumnSpan="1"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center"
+                                       FontSize="Small"/>
+                            </Grid>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="(Un)favorite"
+                                          x:Name="FavoriteMenuButton"
+                                          Clicked="FavoriteMenuButton_Clicked" />
+                                <MenuItem Text="Edit"
+                                          x:Name="EditMenuButton"
+                                          Clicked="EditMenuButton_Clicked" />
+                                <MenuItem Text="Delete"
+                                          x:Name="DeleteMenuButton"
+                                          Clicked="DeleteMenuButton_Clicked" />
+                            </ViewCell.ContextActions>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

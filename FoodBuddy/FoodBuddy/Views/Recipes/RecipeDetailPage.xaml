@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="FoodBuddy.Views.Recipes.RecipeDetailPage"
+            Title="{Binding Title}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Back"
+                     x:Name="BackButton"
+                     Clicked="BackButton_Clicked" />
+        <ToolbarItem Text="Edit"
+                     x:Name="EditButton"
+                     Clicked="EditButton_Clicked" />
+        <ToolbarItem Text="Delete"
+                     x:Name="DeleteButton"
+                     Clicked="DeleteButton_Clicked" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="20"
+                         Padding="15">
+                <Label Text="Name:"
+                       FontSize="Medium" />
+                <Label Text="{Binding Recipe.RecipeName}"
+                       FontSize="Small" />
+
+                <Label Text="Duration:"
+                       FontSize="Medium" />
+                <Label Text="{Binding Recipe.RecipeDuration, StringFormat='{0} Minutes'}"
+                       FontSize="Small" />
+
+                <Label Text="Favorite?"
+                       FontSize="Medium" />
+                <CheckBox x:Name="FavoriteCheck"
+                          IsChecked="{Binding Recipe.RecipeFavorited}"
+                          IsEnabled="False" />
+
+                <Label Text="Rating: (/10)"
+                       FontSize="Medium" />
+                <Label Text="{Binding Recipe.RecipeRating, StringFormat='{0}/10'}"
+                       FontSize="Small" />
+
+                <Label Text="How to prepare:"
+                       FontSize="Medium" />
+                <Editor Text="{Binding Recipe.RecipePrepare}"
+                        FontSize="Small"
+                        AutoSize="TextChanges"
+                        IsReadOnly="True" />
+
+                <Label Text="Category:"
+                       FontSize="Medium" />
+                <Label Text="{Binding Recipe.Category.CategoryName}"
+                       FontSize="Small" />
+
+                <Label Text="Search terms:"
+                       FontSize="Medium" />
+                <ListView x:Name="RecipeTagsListView"
+                          ItemsSource="{Binding Tags}"
+                          IsEnabled="False">
+
+                    <!--Custom View Cells-->
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding .}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

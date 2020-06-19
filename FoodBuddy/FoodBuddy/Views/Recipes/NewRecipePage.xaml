@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:FoodBuddy.ViewModels.Recipes"
+             mc:Ignorable="d"
+             x:Class="FoodBuddy.Views.Recipes.NewRecipePage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Cancel"
+                     Clicked="CancelButton_Clicked" />
+        <ToolbarItem Text="Save"
+                     Clicked="SaveButton_Clicked" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Spacing="20"
+                         Padding="15">
+                <Label Text="Name:"
+                       FontSize="Medium" />
+                <Entry Text="{Binding Recipe.RecipeName}"
+                       Placeholder="Name of Recipe"
+                       FontSize="Small" />
+
+                <Label Text="Duration:"
+                       FontSize="Medium" />
+                <Entry Text="{Binding Recipe.RecipeDuration}"
+                       Placeholder="Recipe preperation time in minutes"
+                       FontSize="Small" />
+
+                <Label Text="Favorite?"
+                       FontSize="Medium" />
+                <CheckBox x:Name="Favoritedcheck"
+                          IsChecked="{Binding Recipe.RecipeFavorited}" />
+
+                <Label Text="Rating: (/10)"
+                       FontSize="Medium" />
+                <Entry Text="{Binding Recipe.RecipeRating}"
+                       Placeholder="How much would you rate your recipe out of 10?"
+                       FontSize="Small" />
+
+                <Label Text="How to prepare:"
+                       FontSize="Medium" />
+                <Editor Text="{Binding Recipe.RecipePrepare}"
+                        Placeholder="Description of how to prepare your recipe"
+                        FontSize="Small"
+                        AutoSize="TextChanges" />
+
+                <Label Text="Category:"
+                       FontSize="Medium" />
+                <Picker x:Name="CategoryPicker"
+                        Title="Select a Category"
+                        ItemsSource="{Binding Categories}"
+                        ItemDisplayBinding="{Binding CategoryName}"
+                        SelectedItem="{Binding SelectedCategory}" />
+
+                <Label Text="Search terms:"
+                       FontSize="Medium" />
+                <Entry x:Name="TagEntry"
+                       Placeholder="Search term"
+                       FontSize="Small" />
+                <Button Text="Add search term"
+                        x:Name="AddTagButton"
+                        Clicked="AddTagButton_Clicked" />
+                <ListView x:Name="RecipeTagsListView"
+                          ItemsSource="{Binding Tags}">
+
+                    <!--Custom View Cells-->
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal"
+                                             HorizontalOptions="FillAndExpand"
+                                             VerticalOptions="Center">
+                                    <Label Text="{Binding .}"
+                                           TextColor="Black"
+                                           FontSize="Medium"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalOptions="CenterAndExpand"
+                                           Margin="95, 0, 0, 0" />
+                                    <Button Text="Delete"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:NewRecipeViewModel}}, Path=DeleteTagCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
